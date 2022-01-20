@@ -1,38 +1,118 @@
-.App {
-  text-align: center;
+html, body {
+  margin : 0;
+  padding : 0;
+}
+h2 {
+  color: red;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.appContainer
+{
+  display: flex;
   min-height: 100vh;
+  background: #f3f4f6;
+  margin-top: 0;
+  flex-direction: column;
+  /* background-color: red; */
+  justify-content: center;
+  align-items: center;
+}
+/* .appcontainer {
+  margin: 0px auto 20px auto;
+  padding-top: 24px;
+  max-width: 400px;
+  background-color: red;
+} */
+
+.todo-app {
+  /* margin: auto; */
+  margin-top: 30px;
+  padding: 2rem;
+  background: white;
+  border-radius: 0.25rem;
+  box-shadow:0 4px 20px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width : 50%;
+  min-width: 400px;
+  color: #374151;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* ::placeholer: red; */
+
+}
+.todo-input{
+  width : 80%;
+  border: none;
+  padding : 15px;
+  box-shadow: 2px 2px 3px 2px red;
+}
+.todo-input:focus {
+  outline: none;
+  box-shadow: 2px 2px 8px 6px red;
+}
+.todoListContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-top: 30px;
+}
+.todoListRow{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  /* padding : 0;
+  align-items : center; */
+  margin : 0;
+  padding : 0;
+  /* background-color: blue; */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  border-bottom:  1px solid grey;
+
+
+}
+.todoText {
+  margin-left: 20px;
+  width : 70%;
+  padding : 10px;
+}
+.todoText h5 {
+  font-size: 24px;
+  /* background-color: yellow; */
+
+}
+.crossButton{
+  margin-right: 0;
+
+}
+.checkallContainer{
+  display : flex;
+  flex-direction: row;
+  border-bottom: 2px solid grey;
+  border-top : 2px solid grey;
+  align-items: center;
+  justify-content: space-between;
+}
+.buttonsContainer {
+  display : flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top:  5%;
+}
+.but {
+  padding : 15px;
+  margin-left: 10px;
+}
+.deleteButton{
+  border : none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 26px;
+}
+.deleteButton:hover{
+  font-size: 32px;
+
+}
+.deleteButton:active{
+  font-size: 32px;
+  color : red;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
