@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import TodoForm from "./components/todoforum";
+import TodoList from "./components/todolist";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -27,24 +29,24 @@ function App() {
     },])
 
     const [allChecked, setAllChecked] = useState(false)
-    const [inputTodo, setInputTodo] = useState("")
+    // const [inputTodo, setInputTodo] = useState("")
     const[idForTodo, setidForTodo] = useState(4)
 
-    function handleInput(e){
-      setInputTodo(e.target.value)
-    }
+    // function handleInput(e){
+    //   setInputTodo(e.target.value)
+    // }
 
-    function addTodo(e){
-      e.preventDefault()
-      if(inputTodo.trim().length === 0){
-        return;
-      }
+    function addTodo(todo){
+      // e.preventDefault()
+      // if(inputTodo.trim().length === 0){
+      //   return;
+      // }
       setTodos([...todos, {
         id : idForTodo,
-        title: inputTodo,
+        title: todo,
         iscompleted : false
       }])
-      setInputTodo("")
+      //setInputTodo("")
       setidForTodo(previous=>previous + 1)
     }
 
@@ -104,100 +106,75 @@ function App() {
       setTodos(updatedTodos)
     }
 
+  function remaining(){
+    return todos.filter(todo=> !todo.iscompleted).length
+  }
+
+
+  function clearCompleted(){
+    console.log("clear completed kicked in")
+    setTodos([...todos].filter(todo=> !todo.iscompleted))
+  }
+
+
+  function completeAllTodos(){
+    console.log("completeALLTodos clicked")
+    const updated = todos.map(todo => {
+      todo.iscompleted = true
+      return todo; 
+    })
+    setTodos(updated)
+  }
+
+
+  function todosFiltered(filter)
+  {
+    if (filter === "all")
+    {
+      return todos
+    }
+    else if(filter === "active")
+    {
+      return todos.filter(todo=> !todo.iscompleted)
+    }
+    else if(filter === "completed")
+    {
+      return todos.filter(todo => todo.iscompleted)
+    }
+  }
+
 
   return (
     <div className = "appContainer">
       <div className = "todo-app">
           <h2>TODO app</h2>
-          <form action = "#" onSubmit={addTodo}>
-            <input
-              type = "text"
-              placeholder = "What do you want to do?"
-              className = "todo-input"
-              value = {inputTodo}
-              onChange={handleInput} 
-              />
-          </form>
-          <div className = "todoListContainer">
-
-            {
-              todos.map(todo=>(
-                <div key = {todo.id}  className = "todoListRow">
-                  <div>
-                    <input onChange = {()=>completeTodo(todo.id)} type = "checkbox"   checked = {todo.checked}/>
-                  </div>
-                  <div className = "todoText">
-                    {
-                      todo.isEditing ? (
-                        <input 
-                          defaultValue = {todo.title}
-                          type = "text"
-                          className = "todo-input"
-                          autoFocus
-                          onBlur = {(event)=> updateTodo(event , todo.id)}
-                          onKeyDown={(event)=> {
-                            if(event.key == "Enter")
-                            {
-                              updateTodo(event, todo.id)
-                            }
-                            else if(event.key == "Escape")
-                            {
-                              cancelEdit(todo.id)
-                            }
-                          }}/>
-                      ) : (
-                        <h5 onDoubleClick = {()=>markAsEditing(todo.id)} style = {todo.iscompleted ? ({textDecoration : "line-through"}) : null}>{todo.title}</h5>
-                      )
-                    }
-                    
-                    
-                    
-                    
-                  </div>
-                  <div className = "crossButton">
-                    <button
-                      className = "deleteButton"
-                      onClick={()=> deleteTodo(todo.id)}
-                      >
-                        X
-                    </button>
-                  </div>
+          <TodoForm addtodo = {addTodo}/>
+          
+          {
+            todos.length > 0 ? (
+              <TodoList 
+                todos = {todos}
+                completeTodo = {completeTodo}
+                updateTodo = {updateTodo}
+                cancelEdit = {cancelEdit}
+                markAsEditing = {markAsEditing}
+                deleteTodo = {deleteTodo}
+                allChecked = {allChecked}
+                remaining = {remaining}
+                clearCompleted = {clearCompleted}
+                completeAllTodos = {completeAllTodos}
+                todosFiltered = {todosFiltered}
+                />
+            ) : (
+                <div>
+                  <p>Add a Todo</p>
                 </div>
-              ))
-            }
-
-
-          </div>
-          {/*Check all container*/}
-          <div className = "checkallContainer">
-            <div>
-              {
-                allChecked ? (
-                  <button >Uncheck All</button>
-                ):
-                (
-                  <button >Check All</button>
-                )
-              }
-
-            </div>
-            <div>
-              <p>todos remaining</p>
-            </div>
-          </div>
-
-          {/*Buttons Container*/}
-          <div className = "buttonsContainer">
-            <div style = {{display: "flex", flexDirection : "row"}}>
-              <button 
-                 className ="but">Delete All</button>
-              <button className = "but">Active</button>
-              <button className = "but">Completed</button>
-            </div>
-            <div>
-              <button className = "but">Clear Completed</button>
-            </div>
-          </div>
+            )
+          }
+          
+          
+          
+          
       </div>
     </div>
 
