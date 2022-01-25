@@ -1,10 +1,43 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import TodosItemsRemaining from "./todoitemsremaining";
 import TodoClearCompleted from "./cleartodocompleted";
 import TodoFilters from "./todofilter";
+import useToggle from "../hooks/toggle";
+import TodosContext from "../context/TodosContext";
+
 
 function TodoList(props){
-    const [filter, setFilter] = useState("all")
+    //const [filter, setFilter] = useState("all")
+    //const [visibilityOne, setVisibilityOne] = useState(true)
+    const [visibilityFeatureOne, setVisibilityFeatureOne] = useToggle()
+    const [visibilityFeatureTwo, setVisibilityFeatureTwo] = useToggle()
+    const {todos, setTodos, filter, setFilter} = useContext(TodosContext)
+    const [allChecked, setAllChecked] = useState(false)
+    
+    
+    // function CompleteAllTodos(){
+    //     console.log("completeALLTodos clicked")
+    //     const updated = todos.map(todo => {
+    //       todo.iscompleted = true
+    //       return todo; 
+    //     })
+    //     setTodos(updated)
+    // }
+
+
+    function setUnsetCompleteAllTodos(value){
+        console.log("completeALLTodos clicked")
+        const updated = todos.map(todo => {
+          todo.iscompleted = value
+          return todo; 
+        })
+        setTodos(updated)
+        setAllChecked(prev=> !prev)
+    }
+
+
+    
+    
     return(
         <>
             <div className = "todoListContainer">
@@ -57,31 +90,44 @@ function TodoList(props){
 
 
                 </div>
+                {/* Toggle features container*/}
+                <div style = {{padding : 10,}}>
+                    <button style = {{marginRight : 10}} onClick = {setVisibilityFeatureOne}>Toggle Feature One</button>
+                    <button onClick = {setVisibilityFeatureTwo}>Toggle Feature Two</button>
+                </div>
+                
                 {/*Check all container*/}
-                <div className = "checkallContainer">
-                <div>
-                {
-                props.allChecked ? (
-                    <button >Uncheck All</button>
-                ):
-                (
-                    <button onClick = {props.completeAllTodos}>Check All</button>
-                )
-                }
+                { visibilityFeatureOne && 
+                    <div className = "checkallContainer">
+                    <div>
+                    {
+                    allChecked ? (
+                        <button onClick = {()=>setUnsetCompleteAllTodos(false) } >Uncheck All</button>
+                    ):
+                    (
+                        // <button onClick = {props.completeAllTodos}>Check All</button>
+                        <button onClick = {()=>setUnsetCompleteAllTodos(true)}>Check All</button>
+                    )
+                    }
 
-                </div>
-                <div>
-                    <TodosItemsRemaining remaining = {props.remaining}/>
-                </div>
-                </div>
-
+                    </div>
+                    <div>
+                        {/* <TodosItemsRemaining remaining = {props.remaining}/> */}
+                        <TodosItemsRemaining/>
+                    </div>
+                    </div>
+                }       
+                
                 {/*Buttons Container*/}
-                <div className = "buttonsContainer">
-                    <TodoFilters setFilter = {setFilter} filter = {filter}/>
-                <div>
-                    <TodoClearCompleted clearCompleted = {props.clearCompleted}/>
-                </div>
-                </div>    
+                {visibilityFeatureTwo && 
+                    <div className = "buttonsContainer">
+                        <TodoFilters setFilter = {setFilter} filter = {filter}/>
+                    <div>
+                        {/* <TodoClearCompleted clearCompleted = {props.clearCompleted}/> */}
+                        <TodoClearCompleted/>
+                    </div>
+                    </div>
+                }        
             </>
     )
 }

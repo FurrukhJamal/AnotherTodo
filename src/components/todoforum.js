@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
+import TodosContext from "../context/TodosContext";
 //import PropTypes from "react-propTypes";
 
 function TodoForm(props){
     const [inputTodo, setInputTodo] = useState("")
+    const {todos, setTodos, idForTodo, setidForTodo} = useContext(TodosContext)
 
     function handleSubmit(e){
         e.preventDefault()
@@ -10,7 +12,15 @@ function TodoForm(props){
           return;
         }
         setInputTodo("")
-        props.addtodo(inputTodo)        
+        //props.addtodo(inputTodo)
+        //added the addtodo functionality via Context
+        setTodos([...todos, {
+            id : idForTodo,
+            title: inputTodo,
+            iscompleted : false
+          }])
+          //setInputTodo("")
+          setidForTodo(previous=>previous + 1)        
     }
 
     
@@ -20,6 +30,7 @@ function TodoForm(props){
 
 
     return (
+        <>
         <form action = "#" onSubmit={handleSubmit}>
             <input
               type = "text"
@@ -28,7 +39,10 @@ function TodoForm(props){
               value = {inputTodo}
               onChange={handleInput} 
               />
+            
         </form>
+        {/* <span>{msg}</span> */}
+        </>
     )
 }
 
