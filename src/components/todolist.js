@@ -11,7 +11,7 @@ function TodoList(props){
     //const [visibilityOne, setVisibilityOne] = useState(true)
     const [visibilityFeatureOne, setVisibilityFeatureOne] = useToggle()
     const [visibilityFeatureTwo, setVisibilityFeatureTwo] = useToggle()
-    const {todos, setTodos, filter, setFilter} = useContext(TodosContext)
+    const {todosFiltered,todos, setTodos, filter, setFilter} = useContext(TodosContext)
     const [allChecked, setAllChecked] = useState(false)
     
     
@@ -36,6 +36,65 @@ function TodoList(props){
     }
 
 
+
+    function deleteTodo(id){
+        setTodos([...todos].filter(item=> item.id !== id))
+      }
+  
+      function completeTodo(id){
+        const updatedTodos = todos.map(todo=> { 
+          if(todo.id === id)
+          {
+            todo.iscompleted = !todo.iscompleted
+          }
+          return todo
+        })
+        setTodos(updatedTodos)
+      }
+  
+  
+      function markAsEditing(id){
+        const updatedTodos = todos.map(todo=> { 
+          if(todo.id === id)
+          {
+            todo.isEditing = !todo.isEditing
+          }
+          return todo
+        })
+        setTodos(updatedTodos)
+      }
+  
+      function updateTodo(event, id)
+      {
+        const updatedTodos = todos.map(todo=> { 
+          if(todo.id === id)
+          {
+            if(event.target.value.trim().length === 0){
+              todo.isEditing = false
+              return todo;
+            }
+            todo.title = event.target.value
+            todo.isEditing = false 
+          }
+          return todo
+        })
+        setTodos(updatedTodos)
+      }
+  
+  
+      function cancelEdit(id){
+        const updatedTodos = todos.map(todo=> { 
+          if(todo.id === id)
+          {
+            todo.isEditing = false
+          }
+          return todo
+        })
+        setTodos(updatedTodos)
+      }
+  
+
+
     
     
     return(
@@ -43,10 +102,10 @@ function TodoList(props){
             <div className = "todoListContainer">
 
                 {
-                props.todosFiltered(filter).map(todo=>(
+                todosFiltered().map(todo=>(
                 <div key = {todo.id}  className = "todoListRow">
                     <div>
-                    <input onChange = {()=>props.completeTodo(todo.id)} type = "checkbox"   checked = {todo.iscompleted}/>
+                    <input onChange = {()=>completeTodo(todo.id)} type = "checkbox"   checked = {todo.iscompleted}/>
                     </div>
                     <div className = "todoText">
                     {
@@ -56,19 +115,19 @@ function TodoList(props){
                             type = "text"
                             className = "todo-input"
                             autoFocus
-                            onBlur = {(event)=> props.updateTodo(event , todo.id)}
+                            onBlur = {(event)=> updateTodo(event , todo.id)}
                             onKeyDown={(event)=> {
                             if(event.key == "Enter")
                             {
-                                props.updateTodo(event, todo.id)
+                                updateTodo(event, todo.id)
                             }
                             else if(event.key == "Escape")
                             {
-                                props.cancelEdit(todo.id)
+                                cancelEdit(todo.id)
                             }
                             }}/>
                         ) : (
-                        <h5 onDoubleClick = {()=>props.markAsEditing(todo.id)} style = {todo.iscompleted ? ({textDecoration : "line-through"}) : null}>{todo.title}</h5>
+                        <h5 onDoubleClick = {()=>markAsEditing(todo.id)} style = {todo.iscompleted ? ({textDecoration : "line-through"}) : null}>{todo.title}</h5>
                         )
                     }
                     
@@ -79,7 +138,7 @@ function TodoList(props){
                     <div className = "crossButton">
                     <button
                         className = "deleteButton"
-                        onClick={()=> props.deleteTodo(todo.id)}
+                        onClick={()=> deleteTodo(todo.id)}
                         >
                         X
                     </button>
@@ -121,7 +180,8 @@ function TodoList(props){
                 {/*Buttons Container*/}
                 {visibilityFeatureTwo && 
                     <div className = "buttonsContainer">
-                        <TodoFilters setFilter = {setFilter} filter = {filter}/>
+                        {/* <TodoFilters setFilter = {setFilter} filter = {filter}/> */}
+                        <TodoFilters/>
                     <div>
                         {/* <TodoClearCompleted clearCompleted = {props.clearCompleted}/> */}
                         <TodoClearCompleted/>

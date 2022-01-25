@@ -37,8 +37,9 @@ function App() {
 
     const [allChecked, setAllChecked] = useState(false)
     // const [inputTodo, setInputTodo] = useState("")
-    const[idForTodo, setidForTodo] = useState(4)
-    
+    //const[idForTodo, setidForTodo] = useState(1)
+    const[idForTodo, setidForTodo] = useLocalStorage("idForTodo", 1)
+
 
     // function handleInput(e){
     //   setInputTodo(e.target.value)
@@ -58,61 +59,61 @@ function App() {
     //   setidForTodo(previous=>previous + 1)
     // }
 
-    function deleteTodo(id){
-      setTodos([...todos].filter(item=> item.id !== id))
-    }
+    // function deleteTodo(id){
+    //   setTodos([...todos].filter(item=> item.id !== id))
+    // }
 
-    function completeTodo(id){
-      const updatedTodos = todos.map(todo=> { 
-        if(todo.id === id)
-        {
-          todo.iscompleted = !todo.iscompleted
-        }
-        return todo
-      })
-      setTodos(updatedTodos)
-    }
-
-
-    function markAsEditing(id){
-      const updatedTodos = todos.map(todo=> { 
-        if(todo.id === id)
-        {
-          todo.isEditing = !todo.isEditing
-        }
-        return todo
-      })
-      setTodos(updatedTodos)
-    }
-
-    function updateTodo(event, id)
-    {
-      const updatedTodos = todos.map(todo=> { 
-        if(todo.id === id)
-        {
-          if(event.target.value.trim().length === 0){
-            todo.isEditing = false
-            return todo;
-          }
-          todo.title = event.target.value
-          todo.isEditing = false 
-        }
-        return todo
-      })
-      setTodos(updatedTodos)
-    }
+    // function completeTodo(id){
+    //   const updatedTodos = todos.map(todo=> { 
+    //     if(todo.id === id)
+    //     {
+    //       todo.iscompleted = !todo.iscompleted
+    //     }
+    //     return todo
+    //   })
+    //   setTodos(updatedTodos)
+    // }
 
 
-    function cancelEdit(id){
-      const updatedTodos = todos.map(todo=> { 
-        if(todo.id === id)
-        {
-          todo.isEditing = false
-        }
-        return todo
-      })
-      setTodos(updatedTodos)
-    }
+    // function markAsEditing(id){
+    //   const updatedTodos = todos.map(todo=> { 
+    //     if(todo.id === id)
+    //     {
+    //       todo.isEditing = !todo.isEditing
+    //     }
+    //     return todo
+    //   })
+    //   setTodos(updatedTodos)
+    // }
+
+    // function updateTodo(event, id)
+    // {
+    //   const updatedTodos = todos.map(todo=> { 
+    //     if(todo.id === id)
+    //     {
+    //       if(event.target.value.trim().length === 0){
+    //         todo.isEditing = false
+    //         return todo;
+    //       }
+    //       todo.title = event.target.value
+    //       todo.isEditing = false 
+    //     }
+    //     return todo
+    //   })
+    //   setTodos(updatedTodos)
+    // }
+
+
+    // function cancelEdit(id){
+    //   const updatedTodos = todos.map(todo=> { 
+    //     if(todo.id === id)
+    //     {
+    //       todo.isEditing = false
+    //     }
+    //     return todo
+    //   })
+    //   setTodos(updatedTodos)
+    // }
 
   // function remaining(){
   //   return todos.filter(todo=> !todo.iscompleted).length
@@ -142,7 +143,7 @@ function App() {
   // }
 
 
-  function todosFiltered(filter)
+  function todosFiltered()
   {
     if (filter === "all")
     {
@@ -199,13 +200,13 @@ function App() {
             {
               todos.length > 0 ? (
                 <TodoList 
-                  todos = {todos}
-                  completeTodo = {completeTodo}
-                  updateTodo = {updateTodo}
-                  cancelEdit = {cancelEdit}
-                  markAsEditing = {markAsEditing}
-                  deleteTodo = {deleteTodo}
-                  allChecked = {allChecked}
+                  // todos = {todos}
+                  // completeTodo = {completeTodo}
+                  // updateTodo = {updateTodo}
+                  // cancelEdit = {cancelEdit}
+                  // markAsEditing = {markAsEditing}
+                  // deleteTodo = {deleteTodo}
+                  // allChecked = {allChecked}
                   // remaining = {remaining} 
                   //clearCompleted = {clearCompleted}
                   //completeAllTodos = {completeAllTodos}
