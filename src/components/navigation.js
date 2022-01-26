@@ -6,7 +6,7 @@ export default function NavigationBar(){
             <nav style = {{width : "100%"}}>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/contacts">Contact</a></li>
                     <li><a href="/about">About</a></li>
                 </ul>
             </nav>
