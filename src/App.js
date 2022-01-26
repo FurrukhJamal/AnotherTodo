@@ -5,6 +5,7 @@ import TodoForm from "./components/todoforum";
 import TodoList from "./components/todolist";
 import useLocalStorage from "./hooks/localstorage"
 import TodosContext from './context/TodosContext';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 function App() {
   const nameInputEl = useRef(null)
@@ -65,23 +66,50 @@ function App() {
                         onChange = {handleNameInput}/>
 
                 </form>
-                {name && <p>Hello, {name}</p>}
+                {/* {name && <p>Hello, {name}</p>} */}
+                <CSSTransition in={name} classNames = "slide-verticle" timeout = {500} unmountOnExit>
+                  <p>Hello, {name}</p>
+                </CSSTransition>
             </div>
             <h2>TODO app</h2>
             {/* <TodoForm addtodo = {addTodo}/> */}
             <TodoForm />
             
             {
-              todos.length > 0 ? (
-                <TodoList todosFiltered = {todosFiltered}/>
-              ) : (
-                  <div>
-                    <p>Add a Todo</p>
-                  </div>
-              )
+              // todos.length > 0 ? (
+              //   <TodoList todosFiltered = {todosFiltered}/>
+              // ) : (
+              //     <div>
+              //       <p>Add a Todo</p>
+              //     </div>
+              // )
             }
             
-            
+            {/* <CSSTransition in={todos.length > 0} timeout = {300} classNames = "slide-horizontal" unmountOnExit>
+              <TodoList todosFiltered = {todosFiltered}/>
+            </CSSTransition>
+
+            <CSSTransition in={todos.length === 0} timeout = {300} unmountOnExit classNames = "slide-horizontal">
+              <div>
+                <p>Add a Todo</p>
+              </div>
+            </CSSTransition> */}
+            <SwitchTransition mode= "out-in">
+              <CSSTransition key = {todos.length > 0} timeout = {400} classNames = "slide-horizontal">
+              {
+                todos.length > 0 ? (
+                  <TodoList todosFiltered = {todosFiltered}/>
+                ) : (
+                    <div>
+                      <p>Add a Todo</p>
+                    </div>
+                )
+              }   
+              </CSSTransition>
+
+            </SwitchTransition>
+
+
             
             
         </div>

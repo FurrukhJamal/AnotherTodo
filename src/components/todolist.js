@@ -4,6 +4,7 @@ import TodoClearCompleted from "./cleartodocompleted";
 import TodoFilters from "./todofilter";
 import useToggle from "../hooks/toggle";
 import TodosContext from "../context/TodosContext";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 
 function TodoList(props){
@@ -99,56 +100,58 @@ function TodoList(props){
     
     return(
         <>
-            <div className = "todoListContainer">
+            <TransitionGroup component = "div" className = "todoListContainer">
 
                 {
                 todosFiltered().map(todo=>(
-                <div key = {todo.id}  className = "todoListRow">
-                    <div>
-                    <input onChange = {()=>completeTodo(todo.id)} type = "checkbox"   checked = {todo.iscompleted}/>
-                    </div>
-                    <div className = "todoText">
-                    {
-                        todo.isEditing ? (
-                        <input 
-                            defaultValue = {todo.title}
-                            type = "text"
-                            className = "todo-input"
-                            autoFocus
-                            onBlur = {(event)=> updateTodo(event , todo.id)}
-                            onKeyDown={(event)=> {
-                            if(event.key == "Enter")
-                            {
-                                updateTodo(event, todo.id)
-                            }
-                            else if(event.key == "Escape")
-                            {
-                                cancelEdit(todo.id)
-                            }
-                            }}/>
-                        ) : (
-                        <h5 onDoubleClick = {()=>markAsEditing(todo.id)} style = {todo.iscompleted ? ({textDecoration : "line-through"}) : null}>{todo.title}</h5>
-                        )
-                    }
-                    
-                    
-                    
-                    
-                    </div>
-                    <div className = "crossButton">
-                    <button
-                        className = "deleteButton"
-                        onClick={()=> deleteTodo(todo.id)}
-                        >
-                        X
-                    </button>
-                    </div>
-                </div>
+                <CSSTransition key = {todo.id} classNames = "slide-horizontal" timeout = {1000}>  
+                  <div   className = "todoListRow">
+                      <div>
+                      <input onChange = {()=>completeTodo(todo.id)} type = "checkbox"   checked = {todo.iscompleted}/>
+                      </div>
+                      <div className = "todoText">
+                      {
+                          todo.isEditing ? (
+                          <input 
+                              defaultValue = {todo.title}
+                              type = "text"
+                              className = "todo-input"
+                              autoFocus
+                              onBlur = {(event)=> updateTodo(event , todo.id)}
+                              onKeyDown={(event)=> {
+                              if(event.key == "Enter")
+                              {
+                                  updateTodo(event, todo.id)
+                              }
+                              else if(event.key == "Escape")
+                              {
+                                  cancelEdit(todo.id)
+                              }
+                              }}/>
+                          ) : (
+                          <h5 onDoubleClick = {()=>markAsEditing(todo.id)} style = {todo.iscompleted ? ({textDecoration : "line-through"}) : null}>{todo.title}</h5>
+                          )
+                      }
+                      
+                      
+                      
+                      
+                      </div>
+                      <div className = "crossButton">
+                      <button
+                          className = "deleteButton"
+                          onClick={()=> deleteTodo(todo.id)}
+                          >
+                          X
+                      </button>
+                      </div>
+                  </div>
+                </CSSTransition>
                 ))
                 }
 
 
-                </div>
+              </TransitionGroup> {/*end of transition*/}
                 {/* Toggle features container*/}
                 <div style = {{padding : 10,}}>
                     <button style = {{marginRight : 10}} onClick = {setVisibilityFeatureOne}>Toggle Feature One</button>
@@ -156,7 +159,11 @@ function TodoList(props){
                 </div>
                 
                 {/*Check all container*/}
-                { visibilityFeatureOne && 
+                  <CSSTransition
+                    in = {visibilityFeatureOne}
+                    timeout = {300}
+                    classNames = "slide-verticle"
+                    unmountOnExit> 
                     <div className = "checkallContainer">
                     <div>
                     {
@@ -175,10 +182,14 @@ function TodoList(props){
                         <TodosItemsRemaining/>
                     </div>
                     </div>
-                }       
+                  </CSSTransition>     
                 
                 {/*Buttons Container*/}
-                {visibilityFeatureTwo && 
+                <CSSTransition
+                    in = {visibilityFeatureTwo}
+                    timeout = {2000}
+                    classNames = "slide-verticle"
+                    unmountOnExit> 
                     <div className = "buttonsContainer">
                         {/* <TodoFilters setFilter = {setFilter} filter = {filter}/> */}
                         <TodoFilters/>
@@ -187,7 +198,7 @@ function TodoList(props){
                         <TodoClearCompleted/>
                     </div>
                     </div>
-                }        
+                </CSSTransition>        
             </>
     )
 }

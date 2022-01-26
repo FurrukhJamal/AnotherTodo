@@ -119,3 +119,47 @@ h2 {
   background-color: cornflowerblue;
 }
 
+.slide-verticle-enter {
+  opacity:  0;
+  transform: translateY(-30px)
+}
+
+.slide-verticle-enter-active {
+  opacity: 1;
+  transition : all 2000ms;
+  transform: translateY(0);
+}
+
+.slide-verticle-exit {
+  opacity : 1;
+  transform: translateY(0)
+}
+
+.slide-verticle-exit-active {
+  opacity: 0;
+  transition : all 2000ms;
+  transform: translateY(-100px)
+}
+
+.slide-horizontal-enter{
+  opacity: 0;
+  transform : translateX(40px)
+
+}
+.slide-horizontal-enter-active
+{
+  opacity : 1;
+  transform : translateX(0);
+  transition: all 1000ms;
+}
+.slide-horizontal-exit
+{
+  opacity : 1;
+  transform : translateX(0)
+}
+.slide-horizontal-exit-active
+{
+  opacity : 0;
+  transform : translateX(200px);
+  transition: all 2000ms;
+}
