@@ -51,7 +51,7 @@ function App() {
 
   return (
     <TodosContext.Provider value = {{todosFiltered,filter, setFilter, todos, setTodos, idForTodo, setidForTodo}}>
-      <div className = "appContainer">
+      
         <div className = "todo-app">
           <div>
                 
@@ -67,7 +67,7 @@ function App() {
 
                 </form>
                 {/* {name && <p>Hello, {name}</p>} */}
-                <CSSTransition in={name} classNames = "slide-verticle" timeout = {500} unmountOnExit>
+                <CSSTransition in={name.length > 0} classNames = "slide-verticle" timeout = {500} unmountOnExit>
                   <p>Hello, {name}</p>
                 </CSSTransition>
             </div>
@@ -113,7 +113,7 @@ function App() {
             
             
         </div>
-      </div>
+      
     </TodosContext.Provider>
 
   );;
